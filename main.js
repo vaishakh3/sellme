@@ -1,5 +1,5 @@
 /* ========================================
-   VAISHAK SURESH — Portfolio JavaScript
+   VAISHAKH SURESH — Portfolio JavaScript
    ======================================== */
 
 import './style.css';
