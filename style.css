@@ -1,5 +1,5 @@
 /* ========================================
-   STUDIO ONE — Design System & Styles
+   VAISHAK SURESH — Design System & Styles
    ======================================== */
 
 /* ---------- CSS Custom Properties ---------- */
@@ -14,6 +14,10 @@
     --accent: #ff4500;
     --accent-dim: #cc3700;
     --accent-glow: rgba(255, 69, 0, 0.15);
+    --accent-cyan: #38d6ff;
+    --accent-green: #3cff9d;
+    --matrix-dot: rgba(255, 69, 0, 0.16);
+    --matrix-dot-cool: rgba(56, 214, 255, 0.12);
 
     --text-primary: #e8e8e8;
     --text-secondary: #888888;
@@ -77,6 +81,28 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(circle, var(--matrix-dot) 1px, transparent 1.5px),
+        radial-gradient(circle, var(--matrix-dot-cool) 1px, transparent 1.5px);
+    background-position: 0 0, 12px 12px;
+    background-size: 24px 24px, 24px 24px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 72%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 72%);
+    opacity: 0.55;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
 }
 
 a {
@@ -105,15 +131,41 @@ ul {
     background: url('/images/hero-banner.png') center/cover no-repeat;
     position: relative;
     overflow: hidden;
+    isolation: isolate;
+}
+
+.hero-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 69, 0, 0.08) 22px 23px),
+        radial-gradient(circle at 12% 35%, rgba(56, 214, 255, 0.2), transparent 28%),
+        radial-gradient(circle at 84% 20%, rgba(60, 255, 157, 0.14), transparent 24%);
+    mix-blend-mode: screen;
+    opacity: 0.7;
+    animation: matrixDrift 16s linear infinite;
 }
 
 .hero-banner__overlay {
     position: absolute;
     inset: 0;
+    z-index: 2;
     background: linear-gradient(to bottom,
             transparent 0%,
             transparent 50%,
             var(--bg-primary) 100%);
+}
+
+@keyframes matrixDrift {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(24px, 0, 0);
+    }
 }
 
 /* ---------- Main Content ---------- */
@@ -123,6 +175,7 @@ ul {
     padding: 0 var(--space-lg);
     padding-right: calc(var(--side-nav-width) + var(--space-xl));
     position: relative;
+    z-index: 2;
 }
 
 /* ---------- Top Email ---------- */
@@ -133,7 +186,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 12px;
     color: var(--text-secondary);
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
     transition: color var(--transition);
     z-index: 10;
 }
@@ -161,7 +214,7 @@ ul {
     font-family: var(--font-heading);
     font-size: 1.7rem;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 0;
     text-transform: uppercase;
     color: var(--text-primary);
     margin-bottom: var(--space-xl);
@@ -192,7 +245,7 @@ ul {
     font-family: var(--font-heading);
     font-size: 3.5rem;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 0;
     color: var(--text-primary);
     line-height: 1;
 }
@@ -208,7 +261,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 1px;
+    letter-spacing: 0;
     color: #00c850;
     text-transform: uppercase;
 }
@@ -252,6 +305,52 @@ ul {
 
 .about-bio p {
     margin-bottom: var(--space-md);
+}
+
+.profile-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: var(--space-lg) 0 var(--space-xl);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background:
+        linear-gradient(90deg, rgba(255, 69, 0, 0.06), rgba(56, 214, 255, 0.04), transparent),
+        var(--bg-secondary);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-strip.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.profile-strip__item {
+    min-height: 92px;
+    padding: var(--space-md);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.profile-strip__item:last-child {
+    border-right: 0;
+}
+
+.profile-strip__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.profile-strip__value {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--text-primary);
 }
 
 .text-underline {
@@ -310,7 +409,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: 1.5px;
+    letter-spacing: 0;
     color: var(--text-primary);
     transition: all var(--transition);
 }
@@ -359,6 +458,7 @@ ul {
     height: 200px;
     overflow: hidden;
     background: var(--bg-secondary);
+    position: relative;
 }
 
 .project-card__image img {
@@ -370,6 +470,17 @@ ul {
 
 .project-card:hover .project-card__image img {
     transform: scale(1.05);
+}
+
+.project-card--signal .project-card__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to top, rgba(10, 10, 10, 0.18), transparent 55%),
+        radial-gradient(circle at 20% 18%, rgba(56, 214, 255, 0.22), transparent 22%),
+        radial-gradient(circle at 80% 12%, rgba(255, 69, 0, 0.22), transparent 18%);
+    pointer-events: none;
 }
 
 .project-card__info {
@@ -387,7 +498,7 @@ ul {
     font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 0;
 }
 
 .project-card__link {
@@ -423,7 +534,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 1px;
+    letter-spacing: 0;
     color: var(--text-secondary);
     text-transform: uppercase;
 }
@@ -543,6 +654,38 @@ ul {
     background: #be95ff;
 }
 
+.tag--vite::before {
+    background: #bd34fe;
+}
+
+.tag--ai::before {
+    background: var(--accent-green);
+}
+
+.tag--cloudinary::before {
+    background: #3448c5;
+}
+
+.tag--sheets::before {
+    background: #0f9d58;
+}
+
+.tag--codex::before {
+    background: var(--accent-cyan);
+}
+
+.tag--events::before {
+    background: #ffb000;
+}
+
+.tag--html::before {
+    background: #e34f26;
+}
+
+.tag--css::before {
+    background: #1572b6;
+}
+
 /* ---------- Compact Projects (More / Open Source) ---------- */
 .compact-projects {
     border-top: 1px solid var(--border);
@@ -574,7 +717,7 @@ ul {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 14px;
-    letter-spacing: 1.5px;
+    letter-spacing: 0;
     color: var(--text-primary);
     flex-shrink: 0;
 }
@@ -702,12 +845,26 @@ ul {
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     padding: var(--space-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(56, 214, 255, 0.16) 1px, transparent 1px);
+    background-size: 18px 18px;
+    mask-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.8), transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.8), transparent);
+    opacity: 0.28;
 }
 
 .contact-text {
     font-family: var(--font-mono);
     font-size: 13px;
-    letter-spacing: 1px;
+    letter-spacing: 0;
     line-height: 2;
     color: var(--text-secondary);
 }
@@ -732,7 +889,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 2px;
+    letter-spacing: 0;
     color: var(--text-muted);
     margin-bottom: var(--space-sm);
     text-transform: uppercase;
@@ -757,7 +914,7 @@ ul {
     color: var(--text-muted);
     font-family: var(--font-mono);
     font-size: 12px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
 }
 
 .contact-form__input:focus {
@@ -786,7 +943,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: 2px;
+    letter-spacing: 0;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -813,7 +970,7 @@ ul {
 .contact-form__status {
     font-family: var(--font-mono);
     font-size: 12px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
 }
 
 .contact-form__status--success {
@@ -852,7 +1009,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 1px;
+    letter-spacing: 0;
     color: var(--text-muted);
     text-align: right;
     padding: 6px 12px;
@@ -887,7 +1044,7 @@ ul {
 .footer__copy {
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 1px;
+    letter-spacing: 0;
     color: var(--text-muted);
 }
 
@@ -899,7 +1056,7 @@ ul {
 .footer__link {
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 1px;
+    letter-spacing: 0;
     color: var(--text-muted);
     transition: color var(--transition);
 }
@@ -962,6 +1119,18 @@ ul {
     .about-title {
         font-size: 2.5rem;
     }
+
+    .profile-strip {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .profile-strip__item:nth-child(2) {
+        border-right: 0;
+    }
+
+    .profile-strip__item:nth-child(-n + 2) {
+        border-bottom: 1px solid var(--border);
+    }
 }
 
 @media (max-width: 700px) {
@@ -986,6 +1155,22 @@ ul {
 
     .hero-banner {
         height: 100px;
+    }
+
+    .profile-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-strip__item,
+    .profile-strip__item:nth-child(2) {
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        gap: var(--space-sm);
+    }
+
+    .profile-strip__item:last-child {
+        border-bottom: 0;
     }
 
     .section-heading {
@@ -1088,7 +1273,7 @@ ul {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 0;
     color: var(--text-primary);
     margin-bottom: var(--space-md);
 }
@@ -1126,7 +1311,7 @@ ul {
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: 1.5px;
+    letter-spacing: 0;
     color: var(--text-primary);
     transition: all var(--transition);
 }

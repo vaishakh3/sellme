@@ -1,5 +1,5 @@
 /* ========================================
-   STUDIO ONE — Main JavaScript
+   VAISHAK SURESH — Portfolio JavaScript
    ======================================== */
 
 import './style.css';
@@ -9,6 +9,39 @@ import emailjs from '@emailjs/browser';
 // PROJECT DATA
 // ==========================================
 const projectData = {
+    'kathavishesham': {
+        title: 'KATHAVISHESHAM',
+        image: '/images/project-kathavishesham.jpg',
+        github: 'https://kathavishesham.vercel.app',
+        linkLabel: 'VIEW WEBSITE',
+        tags: [
+            { label: 'VITE', class: 'tag--vite' },
+            { label: 'AI VIDEO', class: 'tag--ai' },
+            { label: 'CLOUDINARY', class: 'tag--cloudinary' },
+            { label: 'GOOGLE SHEETS', class: 'tag--sheets' }
+        ],
+        description: `
+      <p>Kathavishesham is a premium one-page website for an AI-assisted cinematic storytelling studio. The site positions the brand around birthday films, wedding creatives, mythological stories, theatre ads, brand films, and memory-led video packages.</p>
+      <p>The build focuses on cinematic presentation, rich metadata, performance-conscious media, and a WhatsApp-first conversion flow. It also includes an admin panel backed by serverless functions, signed Cloudinary uploads, and Google Sheets content storage with fallback content when integrations are not connected.</p>
+      <p>It is a clean example of turning a creative service into a polished, production-ready web presence with strong local-market clarity.</p>
+    `
+    },
+    'codex-nightline': {
+        title: 'CODEX NIGHTLINE',
+        image: '/images/project-codex-nightline.jpg',
+        github: '',
+        tags: [
+            { label: 'CODEX', class: 'tag--codex' },
+            { label: 'EVENT OPS', class: 'tag--events' },
+            { label: 'HTML', class: 'tag--html' },
+            { label: 'CSS', class: 'tag--css' }
+        ],
+        description: `
+      <p>Codex Nightline is a Codex-powered AI build sprint concept and website for Kochi, designed around an exclusive after-hours Kochi Metro train. The idea: 100 curated builders board a moving metro and spend the night building real projects with OpenAI Codex.</p>
+      <p>The project combines a cinematic public-facing event site with practical coordination assets: route storytelling, participant selection, build tracks, schedule framing, proposal PDFs, and operational details for Kochi Metro Rail Limited coordination.</p>
+      <p>It reflects the kind of thing I like building as an OpenAI Codex Ambassador: technically sharp, visually memorable, and grounded enough to move from wild idea to actual logistics.</p>
+    `
+    },
     'oasis-lite': {
         title: 'OASIS LITE',
         image: '/images/project-1.webp',
@@ -283,6 +316,7 @@ function initProjectModal() {
     const modalTags = document.getElementById('modalTags');
     const modalDesc = document.getElementById('modalDesc');
     const modalGithub = document.getElementById('modalGithub');
+    const modalLinkText = modalGithub?.querySelector('span');
 
     if (!overlay) return;
 
@@ -312,6 +346,7 @@ function initProjectModal() {
         // GitHub link
         if (project.github) {
             modalGithub.href = project.github;
+            if (modalLinkText) modalLinkText.textContent = project.linkLabel || 'VIEW ON GITHUB';
             modalGithub.style.display = 'inline-flex';
         } else {
             modalGithub.removeAttribute('href');
